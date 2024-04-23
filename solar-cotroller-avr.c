@@ -2,7 +2,7 @@
 This program was created by the
 CodeWizardAVR V3.14 Advanced
 Automatic Program Generator
-© Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+Â© Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
 http://www.hpinfotech.com
 
 Project : 
@@ -31,7 +31,7 @@ Data Stack size         : 16
 unsigned char counter = 0   ;
 unsigned char batt;
 unsigned char batt_threshold = 10;
-unsigned char on_time = 0x80; //OCR0A or OCR0B register values
+unsigned char on_time = 0x55; //OCR0A or OCR0B register values
 
 
 unsigned char read_adc(unsigned char adc_input)
@@ -92,9 +92,9 @@ interrupt [TIM0_OVF] void timer0_ovf_isr(void)
     batt = read_adc(1<<MUX1|0<<MUX0);
     if (batt > 14) {
         // ot protect battry from over charge
-        on_time = 0x255;
+        on_time = 0xff;
     }else{
-        on_time = 0x80;
+        on_time = 0x55;
     }
     
    if(batt > batt_threshold){ 
@@ -162,12 +162,13 @@ ADMUX=ADC_VREF_TYPE;
 ADCSRA=(1<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 ADCSRB=(0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0);
 
+WDTCR=(0<<WDTIF) | (0<<WDTIE) | (1<<WDP3) | (1<<WDCE) | (1<<WDE) | (0<<WDP2) | (0<<WDP1) | (0<<WDP0);
+
 // Global enable interrupts
 #asm("sei")
 
 while (1)
       {
-      // Place your code here
-
+      #asm("WDR")
       }
 }
