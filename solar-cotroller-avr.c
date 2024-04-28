@@ -85,7 +85,7 @@ PORTB=(0<<PORTB5) | (0<<PORTB4) | (0<<PORTB3) | (0<<PORTB2) | (0<<PORTB1) | (0<<
 interrupt [TIM0_OVF] void timer0_ovf_isr(void)
 {
  counter ++;
-  if(counter >100)
+  if(counter >70)
  { 
     stop_timer();
     // solar = read_adc(1<<MUX1|1<<MUX0);
@@ -103,7 +103,7 @@ interrupt [TIM0_OVF] void timer0_ovf_isr(void)
    
    counter = 0;
  }
- else if(counter >74)
+ else if(counter >51)
  { 
    start_normal_timer();
  }
